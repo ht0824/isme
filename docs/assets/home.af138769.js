@@ -1,1 +1,0 @@
-import{_ as t,r as o,o as r,c,b as a}from"./app.2920bb8e.js";const n={},s={class:"text-center text-gray-700 dark:text-gray-200"};function _(m,i){const e=o("RouterView");return r(),c("main",s,[a(e)])}var f=t(n,[["render",_]]);export{f as default};

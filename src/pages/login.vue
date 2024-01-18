@@ -1,6 +1,11 @@
 <script setup="props" lang="ts">
 import { ElMessage } from 'element-plus'
-import { checkUsername, getToken, loginApi, userRegister } from '~/api/path/user'
+import {
+  checkUsername,
+  // getToken,
+  // loginApi,
+  userRegister,
+} from '~/api/path/user'
 const user = reactive({
   username: '',
   password: '',
@@ -9,34 +14,36 @@ const user = reactive({
 const slide_up = ref(false)
 const router = useRouter()
 const login = () => {
-  if (user.username === '77') {
+  if (user.username === '77' || user.password === '77') {
     ElMessage.success('七七你来啦')
     router.push('/hi/me')
     return sessionStorage.setItem('user', user.username)
   }
-  loginApi({
-    username: user.username,
-    password: user.password,
-  }).then((res: any) => {
-    if (res.code === 200) {
-      ElMessage.success('登录成功')
-      getToken({
-        username: user.username,
-        password: user.password,
-      }).then((re: any) => {
-        if (re.code === 200) {
-          localStorage.setItem('access_token', re.data.access_token)
-          localStorage.setItem('refresh_token', re.data.refresh_token)
-          localStorage.setItem('token_type', re.data.token_type)
-          router.push('/hi/me')
-          sessionStorage.setItem('user', user.username)
-        }
-      })
-    }
-    else {
-      ElMessage.warning(res.msg)
-    }
-  })
+  router.push('/hi/me')
+  return sessionStorage.setItem('user', user.username)
+  // loginApi({
+  //   username: user.username,
+  //   password: user.password,
+  // }).then((res: any) => {
+  //   if (res.code === 200) {
+  //     ElMessage.success('登录成功')
+  //     getToken({
+  //       username: user.username,
+  //       password: user.password,
+  //     }).then((re: any) => {
+  //       if (re.code === 200) {
+  //         localStorage.setItem('access_token', re.data.access_token)
+  //         localStorage.setItem('refresh_token', re.data.refresh_token)
+  //         localStorage.setItem('token_type', re.data.token_type)
+  //         router.push('/hi/me')
+  //         sessionStorage.setItem('user', user.username)
+  //       }
+  //     })
+  //   }
+  //   else {
+  //     ElMessage.warning(res.msg)
+  //   }
+  // })
 }
 const register = () => {
   if (!user.password || !user.confirm)
@@ -106,8 +113,10 @@ const goLogin = () => {
           </p>
           <div v-if="!slide_up" class="from flex flex-col items-center">
             <h2>登录</h2>
-            <input v-model="user.username" class="name" type="text" placeholder="输入用户名" autocomplete="false" maxlength="11">
-            <input v-model="user.password" class="password" type="password" placeholder="输入密码" autocomplete="false" maxlength="11" @keydown.enter="login">
+            <input v-model="user.username" class="name" type="text" placeholder="输入用户名" autocomplete="false"
+              maxlength="11">
+            <input v-model="user.password" class="password" type="password" placeholder="输入密码" autocomplete="false"
+              maxlength="11" @keydown.enter="login">
             <button class="submit" :disabled="!user.username" @click="login">
               登录
             </button>
@@ -124,8 +133,10 @@ const goLogin = () => {
           <div v-if="slide_up" class="from flex flex-col items-center">
             <h2>注册</h2>
             <input v-model="user.username" class="name" type="text" placeholder="用户名" autocomplete="false" maxlength="11">
-            <input v-model="user.password" class="password" type="password" placeholder="密码" autocomplete="false" maxlength="11">
-            <input v-model="user.confirm" class="password" type="password" placeholder="确认密码" autocomplete="false" maxlength="11">
+            <input v-model="user.password" class="password" type="password" placeholder="密码" autocomplete="false"
+              maxlength="11">
+            <input v-model="user.confirm" class="password" type="password" placeholder="确认密码" autocomplete="false"
+              maxlength="11">
             <button class="submit" :disabled="!user.username" @click="register">
               注册
             </button>
@@ -216,6 +227,7 @@ const goLogin = () => {
 /* 背景圆动画 */
 
 @keyframes animate {
+
   0%,
   100% {
     transform: translateY(-50px);
@@ -296,7 +308,7 @@ const goLogin = () => {
 /* 登录标题的下划线样式 */
 
 .from h2::before {
-  content: '';
+  content: "";
   position: absolute;
   bottom: -10px;
   width: 0px;
